@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:countries/models/country.dart';
+import 'package:countries/screens/country_detail_screen.dart';
+import 'package:countries/utils/format_population.dart';
 
-class CountryCardWidget extends StatelessWidget {
+class CountryCard extends StatelessWidget {
   final Country country;
-  const CountryCardWidget({super.key, required this.country});
+  const CountryCard({super.key, required this.country});
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +15,16 @@ class CountryCardWidget extends StatelessWidget {
       child: ListTile(
         leading: CircleAvatar(backgroundImage: NetworkImage(country.flagUrl)),
         title: Text(country.name),
-        subtitle: Text("Ludność: ${country.population}"),
+        subtitle: Text(
+          "Ludność: ${formatNumberWithSpaces(country.population.toString())}",
+        ),
         onTap: () {
-          // tutaj możesz otworzyć ekran szczegółów
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CountryDetailScreen(country: country),
+            ),
+          );
         },
       ),
     );
